@@ -51,26 +51,53 @@ public class Main {
         System.out.print("Nombre: ");
         String nombre = scanner.nextLine();
 
-        if (esBebida.equalsIgnoreCase("s")) {
-            // Primero volumen, luego precio y stock
-            System.out.print("Volumen en litros: ");
-            double volumen = Double.parseDouble(scanner.nextLine());
-
+        double precio;
+        while (true) {
             System.out.print("Precio: ");
-            double precio = Double.parseDouble(scanner.nextLine());
+            try {
+                precio = Double.parseDouble(scanner.nextLine());
+                if (precio < 0) {
+                    System.out.println("El precio no puede ser negativo.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Formato inválido. Ingrese un número válido para el precio.");
+            }
+        }
 
+        int stock;
+        while (true) {
             System.out.print("Stock: ");
-            int stock = Integer.parseInt(scanner.nextLine());
+            try {
+                stock = Integer.parseInt(scanner.nextLine());
+                if (stock < 0) {
+                    System.out.println("El stock no puede ser negativo.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Formato inválido. Ingrese un número válido para el stock.");
+            }
+        }
 
+        if (esBebida.equalsIgnoreCase("s")) {
+            double volumen;
+            while (true) {
+                System.out.print("Volumen en litros: ");
+                try {
+                    volumen = Double.parseDouble(scanner.nextLine());
+                    if (volumen <= 0) {
+                        System.out.println("El volumen debe ser mayor que cero.");
+                        continue;
+                    }
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Formato inválido. Ingrese un número válido para el volumen.");
+                }
+            }
             productoService.agregarProducto(new Bebida(nombre, precio, stock, volumen));
         } else {
-            // Solo nombre, precio y stock
-            System.out.print("Precio: ");
-            double precio = Double.parseDouble(scanner.nextLine());
-
-            System.out.print("Stock: ");
-            int stock = Integer.parseInt(scanner.nextLine());
-
             productoService.agregarProducto(new Producto(nombre, precio, stock));
         }
 
